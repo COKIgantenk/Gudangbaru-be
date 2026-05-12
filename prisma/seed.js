@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { PrismaClient, Role } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 
@@ -10,23 +12,32 @@ async function main() {
   const password = process.env.SUPER_ADMIN_PASSWORD;
 
   if (!email || !password) {
-    throw new Error('SUPER_ADMIN_EMAIL / PASSWORD belum ada di .env');
+    throw new Error(
+      'SUPER_ADMIN_EMAIL / SUPER_ADMIN_PASSWORD belum ada di .env'
+    );
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (existingUser) {
+    console.log('⚠️ Super admin sudah ada');
+    return;
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await prisma.user.upsert({
-    where: { email },
-    update: {},
-    create: {
+  await prisma.user.create({
+    data: {
       name: 'Super Admin',
       email,
       password: hashedPassword,
-      role: Role.super_admin,
+      role: Role.SUPER_ADMIN,
     },
   });
 
-  console.log('✅ Seed selesai');
+  console.log('✅ Super admin berhasil dibuat');
 }
 
 main()
