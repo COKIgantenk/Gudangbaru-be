@@ -8,6 +8,9 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding...');
 
+  console.log('EMAIL:', process.env.SUPER_ADMIN_EMAIL);
+  console.log('PASSWORD:', process.env.SUPER_ADMIN_PASSWORD);
+
   const email = process.env.SUPER_ADMIN_EMAIL;
   const password = process.env.SUPER_ADMIN_PASSWORD;
 
