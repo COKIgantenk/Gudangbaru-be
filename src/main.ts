@@ -36,7 +36,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3000',
-      'https://gudang-baru-berkah.vercel.app', // ← URL Vercel kamu
+      'https://gudang-baru-fe.vercel.app', // ← URL Vercel kamu
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS'],
